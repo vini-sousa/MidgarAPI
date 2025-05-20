@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/vini-sousa/WebApi/blob/master/images/logo.png" alt="MidgarApp Logo" width="200"/>
+  <img src="https://github.com/vini-sousa/MidgarApi/blob/master/images/logo.png" alt="MidgarApp Logo" width="200"/>
 </p>
 
 # MidgarApp
