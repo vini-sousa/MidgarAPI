@@ -22,7 +22,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { NgxMaskModule } from 'ngx-mask'
 
 import { EventService } from './services/event.service';
 
@@ -70,7 +69,6 @@ import { RegistrationComponent } from './components/user/registration/registrati
       }
     ),
     NgxSpinnerModule,
-    NgxMaskModule.forRoot()
   ],
   providers: [EventService],
   bootstrap: [AppComponent],

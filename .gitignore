@@ -495,3 +495,10 @@ Thumbs.db
 *.db-shm
 *.db-wal
 Back/src/Midgar.API/Midgar.db
+
+#Compile
+dist
+.angular
+package-lock.json
+.vscode/launch.json
+.vscode/tasks.json
