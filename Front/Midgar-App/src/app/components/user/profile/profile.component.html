@@ -1,0 +1,139 @@
+<app-title [title]="'Profile'" [subtitle]="'User information'"></app-title>
+<div class="card rounded shadow-sm">
+    <form [formGroup]="form">
+        <div class="row p-3">
+            <div class="col-lg-3 pt-1">
+                <div class="card mb-3">
+                    <div class="card-header"></div>
+                    <div class="d-flex align-self-center pt-3">
+                        <a>
+                            <img
+                                src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+                                name="aboutme" width="120" height="120" class="rounded-circle">
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="h4 text-center mb-3">UserName</div>
+                        <div class="h7 text-bold pb-1"><b>Name:</b> Miracles Lee Cross</div>
+                        <div class="h7">
+                            Web application developer with experience in JavaScript, PHP, Java, Python, Ruby, Node.js, etc.
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-6 text-center border-right">
+                                    <div class="h5">1342</div>
+                                    <div class="h6 text-muted">Events Given</div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="h5">1342</div>
+                                    <div class="h6 text-muted">Events Attended</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="card-footer"></div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <h3 class="border-bottom">Profile Details</h3>
+                    </div>
+                    <div class="form-group col">
+                        <label>Title</label>
+                        <select class="form-control" formControlName="title" (change)="formControl.title.markAsTouched()" [ngClass]="{'is-invalid': formControl.title.errors && formControl.title.touched }">
+                            <option value=""></option>
+                            <option value="0">None</option>
+                            <option value="Tecnólogo(a)">Technologist</option>
+                            <option value="Bacharel">Bachelor</option>
+                            <option value="Especialista">Specialist</option>
+                            <option value="Pós Graduado(a)">Postgraduate</option>
+                            <option value="Mestre">Master</option>
+                            <option value="Doutor(a)">PhD</option>
+                            <option value="Pós Doc">Postdoctoral</option>
+                        </select>
+                         <div *ngIf="formControl.title.errors?.required" class="invalid-feedback">Title is required</div>
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label>First Name</label>
+                        <input type="text" class="form-control"
+                        [ngClass]="{'is-invalid': formControl.firstName.errors && formControl.firstName.touched }" 
+                        formControlName="firstName" placeholder="Enter First Name" />
+                        <div *ngIf="formControl.firstName.errors?.required" class="invalid-feedback">First Name is required</div>
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" 
+                        [ngClass]="{'is-invalid': formControl.lastName.errors && formControl.lastName.touched }"                     
+                        formControlName="lastName" placeholder="Enter Last Name" />
+                        <div *ngIf="formControl.lastName.errors?.required" class="invalid-feedback">Last Name is required</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-5">
+                        <label>Email:</label>
+                        <input type="text" class="form-control" 
+                        [ngClass]="{'is-invalid': formControl.email.errors && formControl.email.touched }" 
+                        formControlName="email" placeholder="Enter Email">
+                        <div *ngIf="formControl.email.errors?.required" class="invalid-feedback">Email is required</div>
+                        <div *ngIf="formControl.email.errors?.email" class="invalid-feedback">You must enter a valid email address</div>  
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label>Phone</label>
+                        <input type="text" class="form-control"
+                         mask="(000) 00000-0000"
+                        [ngClass]="{'is-invalid': formControl.phone.errors && formControl.phone.touched }" 
+                        formControlName="phone" placeholder="(000) 90000-0000">
+                        <div *ngIf="formControl.phone.errors?.required" class="invalid-feedback">Phone is required</div>  
+                    </div>
+                    <div class="form-group col-sm">
+                        <label>Role</label>
+                        <select class="form-control" formControlName="role" (change)="formControl.role.markAsTouched()" [ngClass]="{'is-invalid': formControl.role.errors && formControl.role.touched }">
+                            <option value=""></option>
+                            <option value="Participante">Participant</option>
+                            <option value="Palestrante">Speaker</option>
+                        </select>
+                        <div *ngIf="formControl.role.errors?.required" class="invalid-feedback">Role is required</div>
+                    </div>
+                    <div class="form-group col-12">
+                        <label>Description</label>
+                        <input type="text" class="form-control" 
+                        [ngClass]="{'is-invalid': formControl.description.errors && formControl.description.touched }" 
+                        formControlName="description" placeholder="Enter Description"/>              
+                        <div *ngIf="formControl.description.errors?.required" class="invalid-feedback">Description is required</div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="pt-3 border-bottom">Change Password</h3>
+                    <p>If you want to change your password, fill in the fields below:</p>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <label>Password:</label>
+                        <input type="password" class="form-control" 
+                        [ngClass]="{'is-invalid': formControl.password.errors && formControl.password.touched }" 
+                        formControlName="password" placeholder="Enter Password" />
+                        <div *ngIf="formControl.password.errors?.required" class="invalid-feedback">Password is required</div>
+                        <div *ngIf="formControl.password.errors?.minlength" class="invalid-feedback">The password must have a minimum of 6 characters</div>
+                    </div>
+                    <div class="form-group col-sm">
+                        <label>Confirm Password:</label>
+                        <input type="password" class="form-control" 
+                        [ngClass]="{'is-invalid': formControl.confirmPassword.errors && formControl.confirmPassword.touched }" 
+                        formControlName="confirmPassword" placeholder="Confirm Password" />
+                        <div *ngIf="formControl.confirmPassword.errors?.required" class="invalid-feedback">Confirm Password is required</div>
+                        <div *ngIf="formControl.confirmPassword.errors?.mustMatch" class="invalid-feedback">Passwords must be the same</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-end gap-3">
+                <button class="btn btn-danger border" (click)="resetForm($event)">Cancel Changes</button>
+                <button class="btn btn-success" [disabled]="!form.valid"><!--<span class="spinner-border spinner-border-sm mr-1"></span>-->Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>

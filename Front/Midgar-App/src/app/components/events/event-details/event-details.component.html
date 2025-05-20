@@ -1,0 +1,75 @@
+<div class="card rounded shadow-sm">
+    <form [formGroup]="form">
+        <div class="p-3">
+            <!-- <p>Form value {{form.value | json }}</p>
+            <p>Form valid {{form.status | json }}</p> -->
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label>Theme</label>
+                    <input type="text" class="form-control" 
+                    [ngClass]="{'is-invalid': formControl.theme.errors && formControl.theme.touched }" 
+                    formControlName="theme" placeholder="Enter the Theme">
+                    <div *ngIf="formControl.theme.errors?.required" class="invalid-feedback">Theme is required</div>
+                    <div *ngIf="formControl.theme.errors?.minlength" class="invalid-feedback">The theme must have a minimum of 4 characters</div>
+                    <div *ngIf="formControl.theme.errors?.maxlength" class="invalid-feedback">The theme must be a maximum of 50 characters</div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <label>Location</label>
+                    <input type="text" class="form-control"
+                    [ngClass]="{'is-invalid': formControl.local.errors && formControl.local.touched }" 
+                    formControlName="local" placeholder="">
+                    <div *ngIf="formControl.local.errors?.required" class="invalid-feedback">Location is required</div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Date & Time</label>
+                    <input type="datetime" class="form-control"
+                    mask="d0/M0/0000 Hh:m0"
+                    [ngClass]="{'is-invalid': formControl.eventDate.errors && formControl.eventDate.touched }" 
+                    formControlName="eventDate" placeholder="dd/mm/yyyy hh:mm">
+                    <div *ngIf="formControl.eventDate.errors?.required" class="invalid-feedback">Date & Time is required</div>                    
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label>Amount of Peoples</label>
+                    <input type="number" class="form-control" 
+                    [ngClass]="{'is-invalid': formControl.peopleCount.errors && formControl.peopleCount.touched }" 
+                    formControlName="peopleCount" placeholder="" (keydown)="blockInvalid($event)" (input)="sanitizePeopleCount()">
+                    <div *ngIf="formControl.peopleCount.errors?.required" class="invalid-feedback">Amount of Peoples is required</div>
+                    <div *ngIf="formControl.peopleCount.errors?.max" class="invalid-feedback">The number of people should not exceed 120 thousand</div>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Phone</label>
+                    <input type="text" class="form-control"
+                     mask="(000) 00000-0000"
+                    [ngClass]="{'is-invalid': formControl.phone.errors && formControl.phone.touched }" 
+                    formControlName="phone" placeholder="(000) 90000-0000">
+                    <div *ngIf="formControl.phone.errors?.required" class="invalid-feedback">Phone is required</div>                     
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Email</label>
+                    <input type="text" class="form-control" 
+                    [ngClass]="{'is-invalid': formControl.email.errors && formControl.email.touched }" 
+                    formControlName="email" placeholder="e-mail">
+                    <div *ngIf="formControl.email.errors?.required" class="invalid-feedback">Email is required</div>
+                    <div *ngIf="formControl.email.errors?.email" class="invalid-feedback">You must enter a valid email address</div>                
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Image</label>
+                    <input type="text" class="form-control" 
+                    [ngClass]="{'is-invalid': formControl.imageURL.errors && formControl.imageURL.touched }" 
+                    formControlName="imageURL" placeholder="image">
+                    <div *ngIf="formControl.imageURL.errors?.required" class="invalid-feedback">Image is required</div>                    
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-end gap-3">
+                <button class="btn btn-danger border" (click)="resetForm($event)">Cancel Changes</button>
+                <button class="btn btn-success" [disabled]="!form.valid"><!--<span class="spinner-border spinner-border-sm mr-1"></span>-->Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>

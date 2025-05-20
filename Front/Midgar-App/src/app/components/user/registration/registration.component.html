@@ -1,0 +1,89 @@
+<div class="row mt-4">
+    <div class="col-md-6 d-none d-md-block" style="height: 450px;">
+        <div class="text-center col-md-12 my-auto side-heder">
+            <h1>User Registration</h1>
+            <img src="../../../../assets/registerImage.png" class="my-4" alt="" width="600px">
+        </div>
+    </div>
+    <div class="col-md-6 mt-auto mt-md-5 mb-5">
+        <form class="p-1" [formGroup]="form">
+            <div class="pb-2 d-block d-md-none">
+                    <h3 class="border-bottom">User Registration</h3>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-6">
+                    <label>First Name</label>
+                    <input type="text" class="form-control"
+                    [ngClass]="{'is-invalid': formControl.firstName.errors && formControl.firstName.touched }" 
+                    formControlName="firstName" placeholder="Enter First Name" />
+                    <div *ngIf="formControl.firstName.errors?.required" class="invalid-feedback">First Name is required</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" 
+                    [ngClass]="{'is-invalid': formControl.lastName.errors && formControl.lastName.touched }"                     
+                    formControlName="lastName" placeholder="Enter Last Name" />
+                    <div *ngIf="formControl.lastName.errors?.required" class="invalid-feedback">Last Name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="text" class="form-control" 
+                [ngClass]="{'is-invalid': formControl.email.errors && formControl.email.touched }" 
+                formControlName="email" placeholder="Enter Email">
+                <div *ngIf="formControl.email.errors?.required" class="invalid-feedback">Email is required</div>
+                <div *ngIf="formControl.email.errors?.email" class="invalid-feedback">You must enter a valid email address</div>   
+            </div>
+            <div class="form-group">
+                <label>Username:</label>
+                <input type="text" class="form-control"
+                [ngClass]="{'is-invalid': formControl.userName.errors && formControl.userName.touched }" 
+                formControlName="userName" placeholder="Enter Username" /> 
+                <div *ngIf="formControl.userName.errors?.required" class="invalid-feedback">Username is required</div>
+                <div *ngIf="formControl.userName.errors?.minlength" class="invalid-feedback">The username must have a minimum of 4 characters</div>
+                <div *ngIf="formControl.userName.errors?.maxlength" class="invalid-feedback">The username must be a maximum of 16 characters</div>     
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm-6">
+                    <label>Password:</label>
+                    <input type="password" class="form-control" 
+                    [ngClass]="{'is-invalid': formControl.password.errors && formControl.password.touched }" 
+                    formControlName="password" placeholder="Enter Password" />
+                    <div *ngIf="formControl.password.errors?.required" class="invalid-feedback">Password is required</div>
+                    <div *ngIf="formControl.password.errors?.minlength" class="invalid-feedback">The password must have a minimum of 6 characters</div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>Confirm Password:</label>
+                    <input type="password" class="form-control" 
+                    [ngClass]="{'is-invalid': formControl.confirmPassword.errors && formControl.confirmPassword.touched }" 
+                    formControlName="confirmPassword" placeholder="Confirm Password" />
+                    <div *ngIf="formControl.confirmPassword.errors?.required" class="invalid-feedback">Confirm Password is required</div>
+                    <div *ngIf="formControl.confirmPassword.errors?.mustMatch" class="invalid-feedback">Passwords must be the same</div>
+                </div>
+            </div>
+            <div class="form-row p-1 mb-3">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="termsAccepted">
+                <label class="custom-control-label" for="customCheck1">I agree to the <a href="#">Terms of Use</a>.</label>
+                <div *ngIf="formControl.termsAccepted.errors?.required && formControl.termsAccepted.touched" class="invalid-feedback d-block">
+                  You must accept the Terms of Use.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <button class="btn btn-lg btn-success btn-block px-5" [disabled]="!form.valid">
+                        Register
+                    </button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <a class="btn btn-link btn-block" routerLink="/user/login">
+                        Already Registered
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

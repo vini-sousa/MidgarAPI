@@ -1,0 +1,77 @@
+<div class="card rounded shadow-sm p-3">
+    <!-- {{Filter}}-->
+    <div class="d-flex">
+        <div class="flex-fill pr-3">
+            <div class="form-group mb-2">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="background-color:rgb(226, 226, 226)">Filter:</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="filter">
+                </div>
+            </div>
+        </div>
+        <div>
+            <a class="d-flex btn btn-outline-primary" routerLink="/events/detail">
+                <i class="fa fa-plus-circle my-1"></i>
+                <b class="ml-1 d-none d-sm-block">New</b>
+            </a>
+        </div>
+    </div>
+    <!-- {{Grid}}-->
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th class="d-none d-md-table-cell" (click)="isCollapsed = !isCollapsed" style="cursor: pointer;">
+                    Image
+                    <i class="fas" [ngClass]="{'fa-chevron-up': isCollapsed,'fa-chevron-down': !isCollapsed}"></i>
+                </th>
+                <th class="d-none d-md-table-cell">Id</th>
+                <th>Theme</th>
+                <th>Local</th>
+                <th>Date</th>
+                <th class="d-none d-md-table-cell">Amount of People</th>
+                <th class="d-none d-md-table-cell">Lote</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="events && events.length">
+            <tr *ngFor="let event of eventsFiltered">
+                <td class="d-none d-md-table-cell">
+                    <img  [collapse]="isCollapsed" [isAnimated]="true" src="assets/{{event.imageURL}}" alt="{{event.imageURL}}" [style.width.px]="widthImg" [style.margin.px]="marginImg">
+                </td>
+                <td class="d-none d-md-table-cell">{{event.id}}</td>
+                <td>{{event.theme}}</td>
+                <td>{{event.local}}</td>
+                <td>{{event.eventDate | DateTimeFormat}}</td>
+                <td class="d-none d-md-table-cell">{{event.peopleCount}}</td>
+                <td class="d-none d-md-table-cell">{{event.lotes[0].name}}</td>
+                <td>
+                    <div class="d-flex flex-column flex-sm-row">
+                        <button class="btn btn-primary btn-sm mb-2 mb-sm-0 mr-sm-2" tooltip="Edit" (click)="detailEvent(event.id)">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" tooltip="Delete" (click)="openModal(confirmModal)">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot *ngIf="!events.length">
+            <tr>
+                <td colspan="8" class="text-center">
+                    <h4>No events found</h4>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!-- {{events | json }}-->
+<ng-template #confirmModal>
+    <div class="modal-body text-center">
+        <p>Do you want to confirm?</p>
+        <button type="button" class="btn btn-primary mr-2" (click)="confirm()" >Yes</button>
+        <button type="button" class="btn btn-danger" (click)="decline()" >No</button>
+    </div>
+</ng-template>
