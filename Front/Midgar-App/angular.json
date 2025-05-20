@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Midgar-App:build:production"
+              "buildTarget": "Midgar-App:build:production"
             },
             "development": {
-              "browserTarget": "Midgar-App:build:development"
+              "buildTarget": "Midgar-App:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Midgar-App:build"
+            "buildTarget": "Midgar-App:build"
           }
         },
         "test": {
