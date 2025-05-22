@@ -9,7 +9,6 @@ namespace Midgar.Application.DTOs
         [StringLength(30, MinimumLength = 3, ErrorMessage = "The {0} field must be between 3 and 30 characters")]
         public string Local { get; set; }
 
-        [RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}$", ErrorMessage = "The {0} field must be in the format yyyy-MM-ddTHH:mm:ss.fff")]
         public string EventDate { get; set; }
 
         [StringLength(30, MinimumLength = 3, ErrorMessage = "The {0} field must be between 3 and 30 characters")]
@@ -21,7 +20,6 @@ namespace Midgar.Application.DTOs
         [RegularExpression(@".*\.(gif|jpe?g|bmp|png)$", ErrorMessage = "The image field must be in gif, jpg, jpeg, bmp or png format")]
         public string ImageURL { get; set; }
 
-        [RegularExpression(@"\(\d{3}\)\d{5}-\d{4}", ErrorMessage = "Phone must be in the format (000)00000-0000")]
         public string Phone { get; set; }
 
         [EmailAddress]

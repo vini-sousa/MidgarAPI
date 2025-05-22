@@ -1,4 +1,4 @@
-<div class="d-flex p-3 my-3 text-white bg-dark rounded shadow-sm">
+<div *ngIf="!hide" class="d-flex p-3 my-3 text-white bg-dark rounded shadow-sm">
     <div class="d-flex align-items-center mr-auto">
         <i class="{{iconClass}} mr-3"></i>
         <div class="lh-100">
@@ -7,6 +7,6 @@
         </div>
     </div>
     <div class="p-3" *ngIf="buttonList">
-        <button class="btn btn-outline-light font-weight-bold" (click)="list()">List {{title}}</button>
+        <button class="btn btn-outline-light font-weight-bold" (click)="list()">List Events</button>
     </div>
 </div>

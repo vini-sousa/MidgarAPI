@@ -114,7 +114,7 @@ public class EventsController : ControllerBase
             if (eventById == null)
                 return NoContent();
                 
-            return await _eventService.DeleteEvents(id) ? Ok("Deleted") : throw new Exception("An error occurred while trying to delete the event");
+            return await _eventService.DeleteEvents(id) ? Ok(new { message = "Deleted" }) : throw new Exception("An error occurred while trying to delete the event");
         }
         catch (Exception ex)
         {

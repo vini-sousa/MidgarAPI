@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-title',
@@ -12,12 +12,19 @@ export class TitleComponent implements OnInit {
   @Input() subtitle = 'Since 2025';
   @Input() iconClass = 'fa fa-user';
   @Input() buttonList = false;
-
-  constructor(private router: Router) { }
+  @Input() hide = false;
+  
+  constructor(private router: Router) { 
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.hide = event.url.includes('/events/detail');
+      }
+    });
+  }
 
   ngOnInit() : void{ }
 
-  list() : void {
-    this.router.navigate([`/${this.title.toLowerCase()}/list`]);
+  list(): void {
+    this.router.navigate(['/events/list']);
   }
 }

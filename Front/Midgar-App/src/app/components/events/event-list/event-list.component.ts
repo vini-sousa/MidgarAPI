@@ -18,6 +18,8 @@ export class EventListComponent implements OnInit {
 
   public events: Events[] = [];
   public eventsFiltered: Events[] = [];
+  public eventId: number;
+
   public widthImg = 150;
   public marginImg = 2;
   private listedFilter = '';
@@ -30,18 +32,6 @@ export class EventListComponent implements OnInit {
     this.listedFilter = value;
     this.eventsFiltered = this.filter ? this.filterEvents(this.filter) : this.events
   }
-
-  // public filterEvents(filterFor: string): Events[] {
-  //   const term = filterFor.trim().toLowerCase();
-  
-  //   return this.events.filter(event =>
-  //     Object.keys(event).some(key => {
-  //       const val = (event as Record<string, any>)[key];
-  //       return val != null
-  //         && val.toString().toLowerCase().includes(term);
-  //     })
-  //   );
-  // }
 
   public filterEvents(filterFor: string): Events[] {
     const filter = this.filter.toLowerCase();
@@ -71,26 +61,39 @@ export class EventListComponent implements OnInit {
 
   public getEvents(): void {
 
-    this.eventService.getEvents().subscribe({
-      next: (events: Events[]) => {
+    this.eventService.getEvents().subscribe(
+      (events: Events[]) => {
         this.events = events;
         this.eventsFiltered = events;
       },
-      error: (error: any) => {
-        this.spinner.hide();
+      (error: any) => {
+        console.error(error);
         this.toastr.error('Error loading events.', 'Error!');
-      },
-      complete: () => this.spinner.hide()
-    });
+      }
+    ).add(() => this.spinner.hide());
   }
 
-  openModal(confirmModal: TemplateRef<void>) {
+  openModal(confirmModal: TemplateRef<void>, eventId: number) {
+    this.eventId = eventId;
     this.modalRef = this.modalService.show(confirmModal, { class: 'modal-sm' });
   }
  
   confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('The event was successfully deleted.', 'Deleted!');
+    this.spinner.show();
+
+    this.eventService.deleteEvent(this.eventId).subscribe(
+      (result: any) => {
+        if (result.message === "Deleted") {
+          this.toastr.success('The event was successfully deleted.', 'Deleted!');
+          this.getEvents();
+        }
+      },
+      (error: any) => {
+        console.error(error);
+        this.toastr.error(`Error when trying to delete the event ${this.eventId}`, 'Error');
+      }
+    ).add(() => this.spinner.hide());
   }
  
   decline(): void {

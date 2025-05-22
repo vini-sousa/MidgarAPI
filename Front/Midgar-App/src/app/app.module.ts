@@ -22,6 +22,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxMaskDirective, provideEnvironmentNgxMask } from 'ngx-mask';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { EventService } from './services/event.service';
 
@@ -69,8 +71,10 @@ import { RegistrationComponent } from './components/user/registration/registrati
       }
     ),
     NgxSpinnerModule,
+    NgxMaskDirective,
+    BsDatepickerModule.forRoot()
   ],
-  providers: [EventService],
+  providers: [EventService, provideEnvironmentNgxMask()],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
