@@ -5,7 +5,7 @@ using Midgar.Persistence.Interfaces;
 
 namespace Midgar.Persistence.Repositories
 {
-    public class EventRepository : IEventPersist
+    public class EventRepository : IEventRepository
     {
         private readonly MidgarContext _context;
         public EventRepository(MidgarContext context)
@@ -13,7 +13,7 @@ namespace Midgar.Persistence.Repositories
             _context = context;
         }
 
-        async Task<Event[]> IEventPersist.GetAllEventsByThemeAsync(string theme, bool includedSpeakers = false)
+        async Task<Event[]> IEventRepository.GetAllEventsByThemeAsync(string theme, bool includedSpeakers = false)
         {
             IQueryable<Event> query = _context.Events.Include(e => e.Lotes).Include(e => e.SocialMedias);
             
@@ -25,7 +25,7 @@ namespace Midgar.Persistence.Repositories
             return await query.ToArrayAsync();
         }
 
-        async Task<Event[]> IEventPersist.GetAllEventsAsync(bool includedSpeakers = false)
+        async Task<Event[]> IEventRepository.GetAllEventsAsync(bool includedSpeakers = false)
         {
             IQueryable<Event> query = _context.Events.Include(e => e.Lotes).Include(e => e.SocialMedias);
             
@@ -37,7 +37,7 @@ namespace Midgar.Persistence.Repositories
             return await query.ToArrayAsync();
         }
      
-        async Task<Event> IEventPersist.GetEventByIdAsync(int eventId, bool includedSpeakers = false)
+        async Task<Event> IEventRepository.GetEventByIdAsync(int eventId, bool includedSpeakers = false)
         {
             IQueryable<Event> query = _context.Events.Include(e => e.Lotes).Include(e => e.SocialMedias);
             

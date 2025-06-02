@@ -1,6 +1,6 @@
 namespace Midgar.Persistence.Interfaces
 {
-    public interface IGeneralPersist
+    public interface IGeneralRepository
     {
         void Add<T>(T entity) where T: class;
 

@@ -2,7 +2,7 @@ using Midgar.Domain.Entities;
 
 namespace Midgar.Persistence.Interfaces
 {
-    public interface ISpeakerPersist
+    public interface ISpeakerRepository
     {
         Task<Speaker[]> GetAllSpeakersByNameAsync(string name, bool includedEvents = false);
 

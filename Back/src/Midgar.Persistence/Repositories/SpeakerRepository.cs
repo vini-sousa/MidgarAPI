@@ -5,7 +5,7 @@ using Midgar.Persistence.Interfaces;
 
 namespace Midgar.Persistence.Repositories
 {
-    public class SpeakerRepository : ISpeakerPersist
+    public class SpeakerRepository : ISpeakerRepository
     {
         private readonly MidgarContext _context;
         public SpeakerRepository(MidgarContext context)
@@ -13,7 +13,7 @@ namespace Midgar.Persistence.Repositories
             _context = context;
         }
 
-        async Task<Speaker[]> ISpeakerPersist.GetAllSpeakersByNameAsync(string name, bool includedEvents)
+        async Task<Speaker[]> ISpeakerRepository.GetAllSpeakersByNameAsync(string name, bool includedEvents)
         {
             IQueryable<Speaker> query = _context.Speakers.Include(s => s.SocialMedias);
             
@@ -25,7 +25,7 @@ namespace Midgar.Persistence.Repositories
             return await query.ToArrayAsync();
         }
 
-        async Task<Speaker[]> ISpeakerPersist.GetAllSpeakersAsync(bool includedEvents)
+        async Task<Speaker[]> ISpeakerRepository.GetAllSpeakersAsync(bool includedEvents)
         {
             IQueryable<Speaker> query = _context.Speakers.Include(s => s.SocialMedias);
             
@@ -37,7 +37,7 @@ namespace Midgar.Persistence.Repositories
             return await query.ToArrayAsync();
         }
 
-        async Task<Speaker> ISpeakerPersist.GetSpeakerByIdAsync(int speakerId, bool includedEvents)
+        async Task<Speaker> ISpeakerRepository.GetSpeakerByIdAsync(int speakerId, bool includedEvents)
         {
             IQueryable<Speaker> query = _context.Speakers.Include(s => s.SocialMedias);
             

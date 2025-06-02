@@ -29,10 +29,11 @@ namespace Midgar.API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<ILoteService, LoteService>();
 
-            services.AddScoped<IGeneralPersist, GeneralRepository>();
-            
-            services.AddScoped<IEventPersist, EventRepository>();       
+            services.AddScoped<IGeneralRepository, GeneralRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<ILoteRepository, LoteRepository>();      
 
             services.AddCors();
  

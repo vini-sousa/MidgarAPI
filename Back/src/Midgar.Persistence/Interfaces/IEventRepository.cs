@@ -2,7 +2,7 @@ using Midgar.Domain.Entities;
 
 namespace Midgar.Persistence.Interfaces
 {
-    public interface IEventPersist
+    public interface IEventRepository
     {
         Task<Event[]> GetAllEventsByThemeAsync(string theme, bool includedSpeakers = false);
 

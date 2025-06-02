@@ -23,9 +23,12 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxMaskDirective, provideEnvironmentNgxMask } from 'ngx-mask';
+import { NgxCurrencyDirective } from 'ngx-currency';
+
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { EventService } from './services/event.service';
+import { LoteService } from './services/lote.service';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
 import { EventDetailsComponent } from './components/events/event-details/event-details.component';
@@ -72,9 +75,10 @@ import { RegistrationComponent } from './components/user/registration/registrati
     ),
     NgxSpinnerModule,
     NgxMaskDirective,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    NgxCurrencyDirective
   ],
-  providers: [EventService, provideEnvironmentNgxMask()],
+  providers: [EventService, LoteService, provideEnvironmentNgxMask()],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

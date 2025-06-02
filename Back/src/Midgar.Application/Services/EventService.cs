@@ -8,13 +8,13 @@ namespace Midgar.Application.Services
 {
     public class EventService : IEventService
     {
-        private readonly IGeneralPersist _generalPersist;
-        private readonly IEventPersist _eventPersist;
+        private readonly IGeneralRepository _generalRepository;
+        private readonly IEventRepository _eventRepository;
         private readonly IMapper _mapper;
-        public EventService(IGeneralPersist generalPersist, IEventPersist eventPersist, IMapper mapper)
+        public EventService(IGeneralRepository generalRepository, IEventRepository eventRepository, IMapper mapper)
         {
-            _generalPersist = generalPersist;
-            _eventPersist = eventPersist;
+            _generalRepository = generalRepository;
+            _eventRepository = eventRepository;
             _mapper = mapper;
         }
 
@@ -24,11 +24,11 @@ namespace Midgar.Application.Services
             {
                 var eventMap = _mapper.Map<Event>(model);
 
-                _generalPersist.Add(eventMap);
+                _generalRepository.Add(eventMap);
 
-                if (await _generalPersist.SaveChangesAsync())
+                if (await _generalRepository.SaveChangesAsync())
                 {
-                    var eventReturn = await _eventPersist.GetEventByIdAsync(eventMap.Id, false);
+                    var eventReturn = await _eventRepository.GetEventByIdAsync(eventMap.Id, false);
 
                     return _mapper.Map<EventDTO>(eventReturn);
                 }
@@ -45,7 +45,7 @@ namespace Midgar.Application.Services
         {
             try
             {
-                var updateEvent = await _eventPersist.GetEventByIdAsync(id, false);
+                var updateEvent = await _eventRepository.GetEventByIdAsync(id, false);
 
                 if (updateEvent == null)
                     return null;
@@ -54,11 +54,11 @@ namespace Midgar.Application.Services
 
                 _mapper.Map(model, updateEvent);
 
-                _generalPersist.Update(updateEvent);
+                _generalRepository.Update(updateEvent);
 
-                if (await _generalPersist.SaveChangesAsync())
+                if (await _generalRepository.SaveChangesAsync())
                 {
-                    var eventReturn = await _eventPersist.GetEventByIdAsync(updateEvent.Id, false);
+                    var eventReturn = await _eventRepository.GetEventByIdAsync(updateEvent.Id, false);
 
                     return _mapper.Map<EventDTO>(eventReturn);
                 }
@@ -75,11 +75,11 @@ namespace Midgar.Application.Services
         {
             try
             {
-                var deleteEvent = await _eventPersist.GetEventByIdAsync(eventId, false) ?? throw new Exception("Delete event not found.");
+                var deleteEvent = await _eventRepository.GetEventByIdAsync(eventId, false) ?? throw new Exception("Delete event not found.");
                 
-                _generalPersist.Delete(deleteEvent);
+                _generalRepository.Delete(deleteEvent);
 
-                return await _generalPersist.SaveChangesAsync();
+                return await _generalRepository.SaveChangesAsync();
             }
             catch (Exception ex)
             {     
@@ -91,7 +91,7 @@ namespace Midgar.Application.Services
         {
             try
             {
-               var allEvent = await _eventPersist.GetAllEventsAsync(includedSpeakers);
+               var allEvent = await _eventRepository.GetAllEventsAsync(includedSpeakers);
 
                 if (allEvent == null)
                     return null;
@@ -110,7 +110,7 @@ namespace Midgar.Application.Services
         {
             try
             {
-                var eventsByTheme = await _eventPersist.GetAllEventsByThemeAsync(theme, includedSpeakers);
+                var eventsByTheme = await _eventRepository.GetAllEventsByThemeAsync(theme, includedSpeakers);
 
                 if (eventsByTheme == null)
                     return null;
@@ -129,7 +129,7 @@ namespace Midgar.Application.Services
         {
             try
             {
-                var eventById = await _eventPersist.GetEventByIdAsync(eventId, includedSpeakers);
+                var eventById = await _eventRepository.GetEventByIdAsync(eventId, includedSpeakers);
 
                 if (eventById == null)
                     return null;

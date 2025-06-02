@@ -3,7 +3,7 @@ using Midgar.Persistence.Interfaces;
 
 namespace Midgar.Persistence.Repositories
 {
-    public class GeneralRepository : IGeneralPersist
+    public class GeneralRepository : IGeneralRepository
     {
         private readonly MidgarContext _context;
         public GeneralRepository(MidgarContext context)
@@ -11,27 +11,27 @@ namespace Midgar.Persistence.Repositories
             _context = context;
         }
 
-        void IGeneralPersist.Add<T>(T entity) where T : class
+        void IGeneralRepository.Add<T>(T entity) where T : class
         {
             _context.Add(entity);
         }
 
-        void IGeneralPersist.Update<T>(T entity) where T : class
+        void IGeneralRepository.Update<T>(T entity) where T : class
         {
             _context.Update(entity);
         }
 
-        void IGeneralPersist.Delete<T>(T entity) where T : class
+        void IGeneralRepository.Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);       
         }
 
-        void IGeneralPersist.DeleteRange<T>(T[] entityArray) where T : class
+        void IGeneralRepository.DeleteRange<T>(T[] entityArray) where T : class
         {
             _context.RemoveRange(entityArray);
         }
 
-        async Task<bool> IGeneralPersist.SaveChangesAsync()
+        async Task<bool> IGeneralRepository.SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync()) > 0;
         }
