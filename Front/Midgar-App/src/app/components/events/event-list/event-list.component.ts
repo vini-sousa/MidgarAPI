@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Events } from '@app/models/Events';
 import { EventService } from '@app/services/event.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-event-list',
@@ -54,12 +55,7 @@ export class EventListComponent implements OnInit {
     private router: Router
   ) { }
 
-  public ngOnInit(): void {
-    this.spinner.show();
-    this.getEvents();
-  }
-
-  public getEvents(): void {
+    public getEvents(): void {
 
     this.eventService.getEvents().subscribe(
       (events: Events[]) => {
@@ -102,5 +98,14 @@ export class EventListComponent implements OnInit {
 
   detailEvent(id: number) : void {
     this.router.navigate([`events/detail/${id}`]);
+  }
+
+  public showImage(imageURL: string): string {
+    return (imageURL != '') ? `${environment.apiURL}resources/images/${imageURL}` : 'assets/noimage.jpg';
+  }
+
+  public ngOnInit(): void {
+    this.spinner.show();
+    this.getEvents();
   }
 }

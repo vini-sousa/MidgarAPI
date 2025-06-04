@@ -6,6 +6,7 @@ import { Events } from '@app/models/Events';
 import { Lote } from '@app/models/Lote';
 import { EventService } from '@app/services/event.service';
 import { LoteService } from '@app/services/lote.service';
+import { environment } from '@environments/environment';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
@@ -25,6 +26,8 @@ export class EventDetailsComponent implements OnInit {
   form: UntypedFormGroup;
   saveState = 'post';
   currentLote = {id: 0, name: '', index: 0};
+  imgURL = 'assets/upload.png';
+  file: File;
 
   title = '';
   subtitle= '';
@@ -72,15 +75,15 @@ export class EventDetailsComponent implements OnInit {
               private modalService: BsModalService) { }
   
   
-  imageExtensionValidator(control: AbstractControl): ValidationErrors | null {
-    const file = control.value;
-    if (!file) return null;
+  // imageExtensionValidator(control: AbstractControl): ValidationErrors | null {
+  //   const file = control.value;
+  //   if (!file) return null;
 
-    const pattern = /\.(gif|jpe?g|bmp|png)$/i;
-    return pattern.test(file) ? null : { invalidImageExtension: true };
-  }
+  //   const pattern = /\.(gif|jpe?g|bmp|png)$/i;
+  //   return pattern.test(file) ? null : { invalidImageExtension: true };
+  // }
 
-   private parseCustomFormatDateString(dateInput: string | Date | null | undefined): Date | null {
+  private parseCustomFormatDateString(dateInput: string | Date | null | undefined): Date | null {
     if (dateInput instanceof Date)
       return dateInput;
 
@@ -130,7 +133,7 @@ export class EventDetailsComponent implements OnInit {
       
       email: ['', [Validators.required, Validators.email]],
       
-      imageURL: ['', [Validators.required, this.imageExtensionValidator]],
+      imageURL: [''],
 
       lotes: this.fb.array([])
     });
@@ -202,6 +205,11 @@ export class EventDetailsComponent implements OnInit {
         (events: Events) => {
           this.events = {... events};
           this.form.patchValue(events);
+
+          if (this.events.imageURL != '') {
+            this.imgURL = environment.apiURL + 'resources/images/' + this.events.imageURL;
+          }
+
           this.loadLotes();
         },
         (error: any) => {
@@ -292,6 +300,32 @@ export class EventDetailsComponent implements OnInit {
 
   public declineDeleteLote(): void {
     this.modalRef?.hide();
+  }
+
+  onFileChange(ev: any): void {
+    const reader = new FileReader();
+
+    reader.onload = (event: any) => this.imgURL = event.target.result;
+
+    this.file = ev.target.files;
+    reader.readAsDataURL(this.file[0]);
+
+    this.uploadImage();
+  }
+
+  uploadImage(): void {
+    this.spinner.show();
+
+    this.eventService.postUpload(this.eventId, this.file).subscribe(
+      () => {
+        this.loadEvent();
+        this.toastr.success('Image successfully updated', 'Success');
+      },
+      (error: any) => {
+        this.toastr.error('Error when trying to update the image', 'Error');
+        console.error(error);
+      }
+    ).add(() => this.spinner.hide());
   }
 
   ngOnInit() : void {

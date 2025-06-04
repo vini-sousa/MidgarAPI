@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Events } from '../models/Events';
+import { environment } from '@environments/environment';
 
 @Injectable()
 export class EventService {
-  baseURL = 'https://localhost:7204/api/events';
+  baseURL = environment.apiURL + 'api/events';
   
   constructor(private http: HttpClient) { }
 
@@ -31,5 +32,14 @@ export class EventService {
 
   public deleteEvent(id: number): Observable<any> {
     return this.http.delete<any>(`${this.baseURL}/${id}`).pipe(take(1));
+  }
+
+  postUpload(eventId: number, file: File): Observable<Events> {
+    const fileToUpload = file[0] as File;
+    const formData = new FormData();
+
+    formData.append('file', fileToUpload);
+
+    return this.http.post<Events>(`${this.baseURL}/upload-image/${eventId}`, formData).pipe(take(1));
   }
 }

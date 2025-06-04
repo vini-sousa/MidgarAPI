@@ -5,6 +5,7 @@ using Midgar.Application.Interfaces;
 using Midgar.Persistence.Repositories;
 using Midgar.Persistence.Context;
 using Midgar.Persistence.Interfaces;
+using Microsoft.Extensions.FileProviders;
 
 namespace Midgar.API
 {
@@ -63,6 +64,12 @@ namespace Midgar.API
                                       .AllowAnyMethod()
                                       .AllowAnyOrigin()
             );
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
+                RequestPath = new PathString("/Resources")
+            });
 
             app.UseEndpoints(endpoints =>
             {

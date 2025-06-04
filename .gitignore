@@ -502,3 +502,6 @@ dist
 package-lock.json
 .vscode/launch.json
 .vscode/tasks.json
+
+#Images
+Resources/

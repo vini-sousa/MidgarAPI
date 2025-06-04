@@ -9,8 +9,11 @@ namespace Midgar.API.Controllers;
 public class EventsController : ControllerBase
 {
     private readonly IEventService _eventService;
-    public EventsController(IEventService eventService)
+    private readonly IWebHostEnvironment _hostEnvironment;
+
+    public EventsController(IEventService eventService, IWebHostEnvironment hostEnvironment)
     {
+        _hostEnvironment = hostEnvironment;
         _eventService = eventService;
     }
 
@@ -114,11 +117,69 @@ public class EventsController : ControllerBase
             if (eventById == null)
                 return NoContent();
                 
-            return await _eventService.DeleteEvents(id) ? Ok(new { message = "Deleted" }) : throw new Exception("An error occurred while trying to delete the event");
+            if (await _eventService.DeleteEvents(id)) 
+            {
+                DeleteImage(eventById.ImageURL);
+                return Ok(new { message = "Deleted" });
+            }
+            else 
+                throw new Exception("An error occurred while trying to delete the event");
         }
         catch (Exception ex)
         {
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error when trying to delete events. Error: {ex.Message}");
         }
+    }
+
+    [HttpPost("upload-image/{eventId}")]
+    public async Task<IActionResult> UploadImage(int eventId)
+    {
+        try
+        {
+            var eventById = await _eventService.GetEventByIdAsync(eventId, true);
+
+            if (eventById == null)
+                return BadRequest("Error when trying to add event.");
+
+            var file = Request.Form.Files[0];
+
+            if (file.Length > 0)
+            {
+                DeleteImage(eventById.ImageURL);
+                eventById.ImageURL = await SaveImage(file);
+            }
+
+            var returnEvent = await _eventService.UpdateEvents(eventId, eventById);
+
+            return Ok(returnEvent);
+        }
+        catch (Exception ex)
+        {
+            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Error when trying to add events. Error: {ex.Message}");
+        }
+    }
+
+    [NonAction]
+    public void DeleteImage(string imageName) 
+    {
+        var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
+
+        if (System.IO.File.Exists(imagePath))
+            System.IO.File.Delete(imagePath);
+    }
+
+    [NonAction]
+    public async Task<String> SaveImage(IFormFile imageFile)
+    {
+        string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+
+        imageName = $"{imageName}{DateTime.UtcNow:yyyyMMddfff}{Path.GetExtension(imageFile.FileName)}";
+
+        var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/Images", imageName);
+
+        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            await imageFile.CopyToAsync(fileStream);
+
+        return imageName;
     }
 }

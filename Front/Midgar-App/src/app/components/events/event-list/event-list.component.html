@@ -38,7 +38,7 @@
         <tbody *ngIf="events && events.length">
             <tr *ngFor="let event of eventsFiltered">
                 <td class="d-none d-md-table-cell">
-                    <img  [collapse]="isCollapsed" [isAnimated]="true" src="assets/{{event.imageURL}}" alt="{{event.imageURL}}" [style.width.px]="widthImg" [style.margin.px]="marginImg">
+                    <img  [collapse]="isCollapsed" [isAnimated]="true" [src]="showImage(event.imageURL)" alt="{{event.imageURL}}" [style.width.px]="widthImg" [style.margin.px]="marginImg">
                 </td>
                 <td class="d-none d-md-table-cell">{{event.id}}</td>
                 <td>{{event.theme}}</td>
